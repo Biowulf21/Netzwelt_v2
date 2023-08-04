@@ -16,6 +16,7 @@ interface HeirarchyTerritory extends Territory {
 
 export default function HomePage() {
   const [territories, setTerritories] = useState<TerritoryType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -27,6 +28,7 @@ export default function HomePage() {
 
   const fetchTerritories = async () => {
     try {
+      setIsLoading(true)
       const result = await axios({
         method: 'GET',
         url: 'http://localhost:3000/api/places',
@@ -35,6 +37,7 @@ export default function HomePage() {
       if (result.status === 200) {
         const territoryHeirarchy = orderData(result.data['data'], null);
         console.log(territoryHeirarchy)
+        setIsLoading(false)
         setTerritories(territoryHeirarchy);
       }
     } catch (error) {
@@ -96,7 +99,7 @@ export default function HomePage() {
       </div>
       <h1>Home Page</h1>
       <div>
-        {territories.map((territory) => renderTerritory(territory))}
+        {isLoading ? <h1>LOADING</h1> : territories.map((territory) => renderTerritory(territory))}
 
       </div>
     </>
