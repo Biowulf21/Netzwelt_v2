@@ -76,6 +76,7 @@ export default function HomePage() {
       <h1>Home Page</h1>
       <div>
         {JSON.stringify(territories)}
+        {territories.map((territory) => renderTerritory(territory))}
       </div>
     </>
   );
