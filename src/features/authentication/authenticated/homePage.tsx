@@ -9,6 +9,23 @@ type TerritoryType = {
 
 export default function HomePage() {
   const [territories, setTerritories] = useState();
+
+
+  const fetchTerritories = async () => {
+    try {
+
+      const result = await axios({
+        method: 'GET',
+        url: 'http://localhost:3000/api/places',
+      });
+
+      if (result.status == 200) return result.data;
+    } catch (error) {
+
+    }
+
+  }
+
   useEffect(() => {
     fetchTerritories()
 
