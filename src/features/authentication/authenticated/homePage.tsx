@@ -1,16 +1,15 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-type TerritoryType = {
+interface Territory {
   id: string;
   name: string;
   parent: null | number; // Assuming parent is a number type, update it accordingly if needed
 };
 
 
-type CleanedTerritories = {
-  territory: TerritoryType;
-  children: TerritoryType[];
+interface HeirarchyTerritory extends Territory {
+  children: HeirarchyTerritory[];
 }
 
 
