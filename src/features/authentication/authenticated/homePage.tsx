@@ -8,7 +8,7 @@ type TerritoryType = {
 }
 
 export default function HomePage() {
-  const [territories, setTerritories] = useState();
+  const [territories, setTerritories] = useState<TerritoryType[]>([]);
 
 
   const fetchTerritories = async () => {
@@ -20,18 +20,29 @@ export default function HomePage() {
       });
 
       if (result.status == 200) return result.data;
+
     } catch (error) {
+
+      if (error.response && error.response.status === 404) {
+        // Handle 404 error (user not found)
+        alert('Error 404: User not found');
+      } else if (error instanceof Error) {
+        // Handle other errors
+        alert('Error: ' + error.message + ' - ' + error.name);
+      } else {
+        // Handle other unknown errors
+        alert("An unknown error occurred.");
+
+      }
 
     }
 
+    useEffect(() => {
+      fetchTerritories()
+
+    }, [])
+
+    return (
+      <h1>Home Page</h1>
+    )
   }
-
-  useEffect(() => {
-    fetchTerritories()
-
-  }, [])
-
-  return (
-    <h1>Home Page</h1>
-  )
-}
