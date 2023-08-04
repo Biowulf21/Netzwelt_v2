@@ -7,6 +7,13 @@ type TerritoryType = {
   parent: null | number; // Assuming parent is a number type, update it accordingly if needed
 };
 
+
+type CleanedTerritories = {
+  territory: TerritoryType;
+  children: TerritoryType[];
+}
+
+
 export default function HomePage() {
   const [territories, setTerritories] = useState<TerritoryType[]>([]);
 
@@ -18,7 +25,8 @@ export default function HomePage() {
       });
 
       if (result.status === 200) {
-        const territoryHeirarchy = createTerritoryHeirarchy(result.data);
+        const territoryHeirarchy = createTerritoryHeirarchy(result.data['data']);
+        setTerritories(territoryHeirarchy);
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -34,7 +42,26 @@ export default function HomePage() {
     }
   };
 
-  const createTerritoryHeirarchy(dirtyTerrirtories: TerritoryType[]){
+  const createTerritoryHeirarchy = (dirtyTerritories: TerritoryType[]) => {
+    const finalTerritoryList: CleanedTerritories[] = [];
+
+    dirtyTerritories.forEach((territory: TerritoryType) => {
+      if (territory.parent == null) {
+        const temp = {
+          territory: territory,
+          children: [] as TerritoryType[],
+        }
+        const currentTerritoryChildren: TerritoryType[] = dirtyTerritories.filter((e) => e.parent == parseInt(territory.id))
+        temp.children.push(...currentTerritoryChildren);
+        finalTerritoryList.push(temp)
+
+      }
+
+    });
+
+    console.log(finalTerritoryList)
+
+    return finalTerritoryList;
 
   }
 
