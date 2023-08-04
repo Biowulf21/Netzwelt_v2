@@ -16,6 +16,12 @@ interface HeirarchyTerritory extends Territory {
 export default function HomePage() {
   const [territories, setTerritories] = useState<TerritoryType[]>([]);
 
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const logout = () => {
+    console.log('in logout')
+    setIsLoggedIn(false);
+    console.log('after logout')
+  }
   const fetchTerritories = async () => {
     try {
       const result = await axios({
