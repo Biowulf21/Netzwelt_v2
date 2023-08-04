@@ -18,11 +18,13 @@ export default function HomePage() {
   const [territories, setTerritories] = useState<TerritoryType[]>([]);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const logout = () => {
     console.log('in logout')
     setIsLoggedIn(false);
     console.log('after logout')
   }
+
   const fetchTerritories = async () => {
     try {
       const result = await axios({
@@ -32,6 +34,7 @@ export default function HomePage() {
 
       if (result.status === 200) {
         const territoryHeirarchy = orderData(result.data['data'], null);
+        console.log(territoryHeirarchy)
         setTerritories(territoryHeirarchy);
       }
     } catch (error) {
@@ -76,14 +79,25 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchTerritories();
-  }, []); // The dependency array should be []
+
+    return () => { setTerritories([]) }
+
+  }, []);
+
+  useEffect(() => {
+    console.log('in home page: ' + isLoggedIn);
+
+  }, [isLoggedIn]);
 
   return (
     <>
+      <div>
+        <button onClick={(e) => logout()}>Log Out</button>
+      </div>
       <h1>Home Page</h1>
       <div>
-        {JSON.stringify(territories)}
         {territories.map((territory) => renderTerritory(territory))}
+
       </div>
     </>
   );
