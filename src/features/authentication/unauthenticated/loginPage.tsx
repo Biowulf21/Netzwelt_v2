@@ -17,18 +17,30 @@ export default function LoginPage() {
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('in submit')
     e.preventDefault();
+    console.log('in submit')
+    try {
 
-    const result = await axios.post('http://localhost:3000/api/login', { username: username, password: password })
+      const result = await axios.post('http://localhost:3000/api/login', { username: username, password: password })
 
-    if (result.status == 200) {
-      setIsLoggedIn(true);
-      navigate('/')
-    } else {
-      toast.error('Login Failed')
+      if (result.status == 200) {
+        setIsLoggedIn(true);
+        navigate('/')
+      } else {
+        alert('Error ' + result.status + ': ' + result.data['message']);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        // Handle 404 error (user not found)
+        alert('Error 404: User not found');
+      } else if (error instanceof Error) {
+        // Handle other errors
+        alert('Error: ' + error.message + ' - ' + error.name);
+      } else {
+        // Handle other unknown errors
+        alert("An unknown error occurred.");
+      }
     }
-
   }
 
 
