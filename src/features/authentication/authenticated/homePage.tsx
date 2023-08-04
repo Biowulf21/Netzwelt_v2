@@ -41,26 +41,15 @@ export default function HomePage() {
     }
   };
 
-  const createTerritoryHeirarchy = (dirtyTerritories: TerritoryType[]) => {
-    const finalTerritoryList: CleanedTerritories[] = [];
+  const orderData: HeirarchyTerritory[] = (territories: Territory[], parentId: null | string) => {
+    const children = territories.filter((territory) => territory.parent === parentId);
 
-    dirtyTerritories.forEach((territory: TerritoryType) => {
-      if (territory.parent == null) {
-        const temp = {
-          territory: territory,
-          children: [] as TerritoryType[],
-        }
-        const currentTerritoryChildren: TerritoryType[] = dirtyTerritories.filter((e) => e.parent == parseInt(territory.id))
-        temp.children.push(...currentTerritoryChildren);
-        finalTerritoryList.push(temp)
+    return children.map((child) => ({
+      ...child,
+      children: orderData(territories, child.id),
+    }));
+  };
 
-      }
-
-    });
-
-    console.log(finalTerritoryList)
-
-    return finalTerritoryList;
 
   }
 
