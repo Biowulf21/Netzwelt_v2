@@ -51,7 +51,21 @@ export default function HomePage() {
   };
 
 
+  const renderTerritory = (territory: HeirarchyTerritory) => {
+    return (
+      <ul>
+        <li key={territory.id}>
+          {territory.name}
+          {territory.children.length > 0 && (
+            <ul>
+              {territory.children.map((child) => renderTerritory(child))}
+            </ul>
+          )}
+        </li>
+      </ul>
+    );
   }
+
 
   useEffect(() => {
     fetchTerritories();
