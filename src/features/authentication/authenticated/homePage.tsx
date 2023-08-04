@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 type TerritoryType = {
   id: string,
   name: string,
@@ -6,6 +7,7 @@ type TerritoryType = {
 }
 
 export default function HomePage() {
+  const [territories, setTerritories] = useState();
   return (
     <h1>Home Page</h1>
   )
