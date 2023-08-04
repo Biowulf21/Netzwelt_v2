@@ -15,7 +15,7 @@ interface HeirarchyTerritory extends Territory {
 
 
 export default function HomePage() {
-  const [territories, setTerritories] = useState<TerritoryType[]>([]);
+  const [territories, setTerritories] = useState<Territory[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
