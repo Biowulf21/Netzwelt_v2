@@ -30,7 +30,7 @@ export default function HomePage() {
       });
 
       if (result.status === 200) {
-        const territoryHeirarchy = createTerritoryHeirarchy(result.data['data']);
+        const territoryHeirarchy = orderData(result.data['data'], null);
         setTerritories(territoryHeirarchy);
       }
     } catch (error) {
