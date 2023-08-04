@@ -9,6 +9,11 @@ type TerritoryType = {
 
 export default function HomePage() {
   const [territories, setTerritories] = useState();
+  useEffect(() => {
+    fetchTerritories()
+
+  }, [])
+
   return (
     <h1>Home Page</h1>
   )
