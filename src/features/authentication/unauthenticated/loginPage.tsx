@@ -10,6 +10,7 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -20,10 +21,11 @@ export default function LoginPage() {
     e.preventDefault();
     console.log('in submit')
     try {
-
+      setIsLoading(true)
       const result = await axios.post('http://localhost:3000/api/login', { username: username, password: password })
 
       if (result.status == 200) {
+        setIsLoading(false)
         setIsLoggedIn(true);
         navigate('/')
       } else {
@@ -46,40 +48,47 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="login-container">
-        {isLoggedIn ? <h1>Logged in</h1> : <h1>Not Logged In</h1>}
-        <h2>Login</h2>
-        <form>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button onClick={(e) => handleSubmit(e)} className="btn">
-            Login
-          </button>
-        </form>
-        <p className="text-center">
-          Don't have an account? <a href="#">Sign Up</a>
-        </p>
+      {isLoading ? <div className="loading">
+        <h1>LOADING</h1>
       </div>
+        :
+
+        <div className="login-container">
+          {isLoggedIn ? <h1>Logged in</h1> : <h1>Not Logged In</h1>}
+          <h2>Login</h2>
+          <form>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button onClick={(e) => handleSubmit(e)} className="btn">
+              Login
+            </button>
+          </form>
+          <p className="text-center">
+            Don't have an account? <a href="#">Sign Up</a>
+          </p>
+        </div>
+
+      }
     </>
   );
 }
