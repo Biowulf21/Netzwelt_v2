@@ -4,6 +4,7 @@ import "./login.css";
 import { useAuth } from "../contexts/authContextProvider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
 
@@ -19,16 +20,14 @@ export default function LoginPage() {
     console.log('in submit')
     e.preventDefault();
 
-    // const result = await axios.post('/api/login', { username, password })
-    //
-    // if(result.status == 200){
-    //   setIsLoggedIn(true);
-    // }
-    //
+    const result = await axios.post('http://localhost:3000/api/login', { username: username, password: password })
 
-    setIsLoggedIn(true)
-    navigate('/')
-
+    if (result.status == 200) {
+      setIsLoggedIn(true);
+      navigate('/')
+    } else {
+      toast.error('Login Failed')
+    }
 
   }
 
