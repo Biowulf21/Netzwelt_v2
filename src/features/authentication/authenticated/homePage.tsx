@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 type TerritoryType = {
   id: string;
   name: string;
-  parent: number; // Assuming parent is a number type, update it accordingly if needed
+  parent: null | number; // Assuming parent is a number type, update it accordingly if needed
 };
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
       });
 
       if (result.status === 200) {
-        setTerritories(result.data);
+        const territoryHeirarchy = createTerritoryHeirarchy(result.data);
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -34,14 +34,20 @@ export default function HomePage() {
     }
   };
 
+  const createTerritoryHeirarchy(dirtyTerrirtories: TerritoryType[]){
+
+  }
+
   useEffect(() => {
     fetchTerritories();
   }, []); // The dependency array should be []
 
   return (
-    <div>
+    <>
       <h1>Home Page</h1>
-      {/* Render territories data here */}
-    </div>
+      <div>
+        {JSON.stringify(territories)}
+      </div>
+    </>
   );
 }
