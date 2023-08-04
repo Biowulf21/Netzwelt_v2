@@ -54,7 +54,6 @@ export default function LoginPage() {
         :
 
         <div className="login-container">
-          {isLoggedIn ? <h1>Logged in</h1> : <h1>Not Logged In</h1>}
           <h2>Login</h2>
           <form>
             <div className="form-group">
